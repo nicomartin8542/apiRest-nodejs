@@ -19,6 +19,13 @@ process.env.SEED_AUTH = process.env.SEED_PROD || "seed-desarrollo";
 process.env.NODE_ENV = process.env.NODE_ENV || "dev";
 
 //==================
+//Cliente ID google
+//==================
+process.env.CLIENT_ID =
+    process.env.CLIENT_ID ||
+    "501552625802-gkad44alp2h63fgtsibnikm56nf366as.apps.googleusercontent.com";
+
+//==================
 //Url conexion base de datos: Prodccion/desarrollo
 //==================
 let urlDB;

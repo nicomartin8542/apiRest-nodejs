@@ -2,6 +2,7 @@ require("./config/config.js");
 
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 const app = express();
 
 // parse application/x-www-form-urlencoded
@@ -12,6 +13,9 @@ app.use(express.json());
 
 //rutas de nuestra api
 app.use(require("./routes/index"));
+
+//Middleware de carpeta publica
+app.use(express.static(path.resolve(__dirname, "../public")));
 
 //conexion a la base de datos
 mongoose.connect(
