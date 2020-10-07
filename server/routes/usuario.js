@@ -1,12 +1,15 @@
 const express = require("express");
 const Usuario = require("../models/usuario");
-const app = express();
 const bcrypt = require("bcrypt");
 const _ = require("underscore");
-const usuario = require("../models/usuario");
+const {
+    verificaToken,
+    verificaAdmin,
+} = require("../middlewares/autenticacion");
+const app = express();
 
 //GET
-app.get("/usuarios", function(req, res) {
+app.get("/usuarios", verificaToken, (req, res) => {
     //parametros opcionales
     let desde = req.query.desde || 0;
     let limite = req.query.limite || 5;
@@ -35,7 +38,7 @@ app.get("/usuarios", function(req, res) {
 });
 
 //POST
-app.post("/usuarios", function(req, res) {
+app.post("/usuarios", [verificaToken, verificaAdmin], (req, res) => {
     let body = req.body;
     let usuario = new Usuario({
         nombre: body.nombre,
@@ -60,7 +63,7 @@ app.post("/usuarios", function(req, res) {
 });
 
 //PUT
-app.put("/usuarios/:id", function(req, res) {
+app.put("/usuarios/:id", [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id;
     //Filtro los campos que se tienen que actualizar con la funcion pick de paquete underscore
     let body = _.pick(req.body, ["nombre", "email", "img", "role", "estado"]);
@@ -77,6 +80,15 @@ app.put("/usuarios/:id", function(req, res) {
                 });
             }
 
+            if (!usuarioDB) {
+                res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: "Usuario no encontrado",
+                    },
+                });
+            }
+
             res.json({
                 ok: true,
                 usuario: usuarioDB,
@@ -86,7 +98,7 @@ app.put("/usuarios/:id", function(req, res) {
 });
 
 //DELETE
-app.delete("/usuarios/:id", function(req, res) {
+app.delete("/usuarios/:id", [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id;
 
     //funcion para filtrar los campos que quiero actualizar

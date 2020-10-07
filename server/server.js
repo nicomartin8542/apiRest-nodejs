@@ -1,17 +1,17 @@
 require("./config/config.js");
+
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
-const bodyParser = require("body-parser");
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 
-// parse application/json
-app.use(bodyParser.json());
+// parse application/json. Funcion para obtener un objeto json en el body del request
+app.use(express.json());
 
-//rutas del usuario
-app.use(require("./routes/usuario"));
+//rutas de nuestra api
+app.use(require("./routes/index"));
 
 //conexion a la base de datos
 mongoose.connect(
@@ -27,6 +27,7 @@ mongoose.connect(
     }
 );
 
+//levantar servidor en el puerto especificado en congif.js
 app.listen(process.env.PORT, () => {
     console.log("Escuchando puerto", process.env.PORT);
 });
