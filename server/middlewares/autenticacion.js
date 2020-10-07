@@ -23,7 +23,7 @@ let verificaToken = (req, res, next) => {
     });
 };
 
-//===================
+//=====================
 //Verifica que el usuario sea administrador
 //===================
 let verificaAdmin = (req, res, next) => {
