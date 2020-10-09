@@ -4,8 +4,6 @@ const Producto = require('../models/producto');
 
 const { verificaToken } = require('../middlewares/autenticacion');
 
-const _ = require('underscore');
-
 const app = express();
 
 
@@ -39,8 +37,8 @@ app.get('/producto', verificaToken, (req, resp) => {
             resp.json({
                 ok: true,
                 producto
-            })
-        })
+            });
+        });
 
 });
 
@@ -68,9 +66,9 @@ app.get('/producto/buscar/termino=:termino', verificaToken, (req, resp) => {
             resp.json({
                 ok: true,
                 producto
-            })
-        })
-})
+            });
+        });
+});
 
 //===============================================
 //Mostrar producto por ID: GET
@@ -128,7 +126,7 @@ app.post('/producto', verificaToken, (req, resp) => {
             resp.status(500).json({
                 ok: false,
                 err
-            })
+            });
         }
 
         resp.status(201).json({
@@ -177,8 +175,8 @@ app.put('/producto/id=:id', verificaToken, (req, resp) => {
             resp.json({
                 ok: true,
                 producto
-            })
-        })
+            });
+        });
 });
 
 //===============================================
@@ -189,7 +187,7 @@ app.delete('/producto/id=:id', verificaToken, (req, resp) => {
     let id = req.params.id;
     let body = {
         disponible: false
-    }
+    };
     Producto.findByIdAndUpdate(id,
         body, { new: true, runValidators: true },
         (err, producto) => {
