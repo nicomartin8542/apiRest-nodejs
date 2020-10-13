@@ -13,7 +13,9 @@ let productoSchema = new Schema({
 
     categoria: { type: Schema.Types.ObjectId, ref: 'Categoria', required: true },
 
-    usuario: { type: Schema.Types.ObjectId, ref: 'Usuario' }
+    usuario: { type: Schema.Types.ObjectId, ref: 'Usuario' },
+
+    img: { type: String, required: false }
 });
 
 module.exports = mongoose.model('Producto', productoSchema);

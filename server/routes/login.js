@@ -14,21 +14,21 @@ app.post("/login", (req, resp) => {
 
     Usuario.findOne({ email: body.email }, (err, usuarioDB) => {
         if (err) {
-            resp.status(500).json({
+            return resp.status(500).json({
                 ok: false,
                 err: err,
             });
         }
 
         if (!usuarioDB) {
-            resp.status(400).json({
+            return resp.status(400).json({
                 ok: false,
                 message: "El usuario o contraseña no son validos",
             });
         }
 
         if (!bcript.compareSync(body.password, usuarioDB.password)) {
-            resp.status(400).json({
+            return resp.status(400).json({
                 ok: false,
                 message: "El usuario o contraseña no son validos",
             });
@@ -73,7 +73,7 @@ app.post("/google", async(req, resp) => {
 
     let googleUsuario = await verify(token).catch((e) => {
         let err = `${e}`;
-        resp.status(403).json({
+        return resp.status(403).json({
             ok: false,
             err,
         });
@@ -81,7 +81,7 @@ app.post("/google", async(req, resp) => {
 
     Usuario.findOne({ email: googleUsuario.email }, (err, usuarioDB) => {
         if (err) {
-            resp.status(500).json({
+            return resp.status(500).json({
                 ok: false,
                 err: err,
             });
@@ -121,7 +121,7 @@ app.post("/google", async(req, resp) => {
 
         usuario.save((err, usuarioDB) => {
             if (err) {
-                resp.status(500).json({
+                return resp.status(500).json({
                     ok: false,
                     err: err,
                 });

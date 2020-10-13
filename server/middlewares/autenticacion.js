@@ -41,7 +41,32 @@ let verificaAdmin = (req, res, next) => {
     next();
 };
 
+
+//=====================
+//Verifica que el usuario sea administrador
+//===================
+let verificaTokenImg = (req, res, next) => {
+
+    let token = req.query.token;
+
+    //Verifico el token enviado con el secret.
+    jwt.verify(token, process.env.SEED_AUTH, (err, encoded) => {
+        if (err) {
+            return res.status(401).json({
+                ok: false,
+                err: {
+                    message: "Token no valido",
+                },
+            });
+        }
+
+        req.usuario = encoded.usuario;
+        next();
+    });
+}
+
 module.exports = {
     verificaToken,
     verificaAdmin,
+    verificaTokenImg
 };

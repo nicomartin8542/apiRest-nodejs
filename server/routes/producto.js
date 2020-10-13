@@ -19,14 +19,14 @@ app.get('/producto', verificaToken, (req, resp) => {
         .populate('usuario', 'nombre email')
         .exec((err, producto) => {
             if (err) {
-                resp.status(500).json({
+                return resp.status(500).json({
                     ok: false,
                     err
                 })
             }
 
             if (!producto) {
-                resp.status(400).json({
+                return resp.status(400).json({
                     ok: false,
                     err: {
                         message: 'Sin registros'
@@ -57,7 +57,7 @@ app.get('/producto/buscar/termino=:termino', verificaToken, (req, resp) => {
         .exec((err, producto) => {
 
             if (err) {
-                resp.status(500).json({
+                return resp.status(500).json({
                     ok: false,
                     err
                 });
@@ -82,14 +82,14 @@ app.get('/producto/id=:id', verificaToken, (req, resp) => {
         .populate('usuario', 'nombre email')
         .exec((err, producto) => {
             if (err) {
-                resp.status(500).json({
+                return resp.status(500).json({
                     ok: false,
                     err
                 })
             }
 
             if (!producto) {
-                resp.status(400).json({
+                return resp.status(400).json({
                     ok: false,
                     err: {
                         message: 'Sin registros'
@@ -123,7 +123,7 @@ app.post('/producto', verificaToken, (req, resp) => {
     producto.save((err, producto) => {
 
         if (err) {
-            resp.status(500).json({
+            return resp.status(500).json({
                 ok: false,
                 err
             });
@@ -157,14 +157,14 @@ app.put('/producto/id=:id', verificaToken, (req, resp) => {
         .exec((err, producto) => {
 
             if (err) {
-                resp.status(500).json({
+                return resp.status(500).json({
                     ok: false,
                     err
                 });
             }
 
             if (!producto) {
-                resp.status(500).json({
+                return resp.status(500).json({
                     ok: false,
                     err: {
                         message: 'El producto no existe'
@@ -192,14 +192,14 @@ app.delete('/producto/id=:id', verificaToken, (req, resp) => {
         body, { new: true, runValidators: true },
         (err, producto) => {
             if (err) {
-                resp.status(500).json({
+                return resp.status(500).json({
                     ok: false,
                     err
                 });
             }
 
             if (!producto) {
-                resp.status(400).json({
+                return resp.status(400).json({
                     ok: false,
                     err: {
                         message: 'El producto no existe'

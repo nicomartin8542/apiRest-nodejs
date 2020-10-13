@@ -20,7 +20,7 @@ app.get("/usuarios", verificaToken, (req, res) => {
         .limit(Number(limite))
         .exec((err, usuarios) => {
             if (err) {
-                res.status(400).json({
+                return res.status(400).json({
                     ok: false,
                     err,
                 });
@@ -49,7 +49,7 @@ app.post("/usuarios", [verificaToken, verificaAdmin], (req, res) => {
 
     usuario.save((err, usuarioDB) => {
         if (err) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err,
             });
@@ -74,14 +74,14 @@ app.put("/usuarios/:id", [verificaToken, verificaAdmin], (req, res) => {
         body, { new: true, runValidators: true },
         (err, usuarioDB) => {
             if (err) {
-                res.status(400).json({
+                return res.status(400).json({
                     ok: false,
                     err,
                 });
             }
 
             if (!usuarioDB) {
-                res.status(400).json({
+                return res.status(400).json({
                     ok: false,
                     err: {
                         message: "Usuario no encontrado",
@@ -116,14 +116,14 @@ app.delete("/usuarios/:id", [verificaToken, verificaAdmin], (req, res) => {
             //cambio estado a false para desabilitar el usuario
 
             if (err) {
-                res.status(400).json({
+                return res.status(400).json({
                     ok: false,
                     err,
                 });
             }
 
             if (!usuarioDes) {
-                res.status(400).json({
+                return res.status(400).json({
                     ok: false,
                     err: {
                         message: "Usuario no encontrado",

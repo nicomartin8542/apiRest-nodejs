@@ -16,14 +16,14 @@ app.get("/categoria", verificaToken, (req, resp) => {
         .populate("usuario", "nombre email")
         .exec((err, categoriaDB) => {
             if (err) {
-                resp.status(500).json({
+                return resp.status(500).json({
                     ok: false,
                     err,
                 });
             }
 
             if (!categoriaDB) {
-                resp.status(400).json({
+                return resp.status(400).json({
                     ok: false,
                     err: {
                         message: "No hay categorias disponibles",
@@ -46,14 +46,14 @@ app.get("/categoria/id=:id", verificaToken, (req, resp) => {
 
     Categoria.findById(id, (err, categoriaDB) => {
         if (err) {
-            resp.status(500).json({
+            return resp.status(500).json({
                 ok: false,
                 err,
             });
         }
 
         if (!categoriaDB) {
-            resp.status(400).json({
+            return resp.status(400).json({
                 ok: false,
                 error: {
                     message: "No se encontro la categoria",
@@ -80,7 +80,7 @@ app.post("/categoria", verificaToken, (req, resp) => {
 
     categoria.save((err, categoriaDB) => {
         if (err) {
-            resp.status(500).json({
+            return resp.status(500).json({
                 ok: false,
                 err,
             });
@@ -109,14 +109,14 @@ app.put("/categoria/id=:id", verificaToken, (req, resp) => {
         },
         (err, categoriaDB) => {
             if (err) {
-                resp.status(500).json({
+                return resp.status(500).json({
                     ok: false,
                     err,
                 });
             }
 
             if (!categoriaDB) {
-                resp.status(400).json({
+                return resp.status(400).json({
                     ok: false,
                     err: {
                         menssage: "No existe el recurso a modificar",
@@ -140,14 +140,14 @@ app.delete("/categoria/id=:id", [verificaToken, verificaAdmin], (req, resp) => {
 
     Categoria.findByIdAndRemove(id, (err, categoriaDB) => {
         if (err) {
-            resp.status(500).json({
+            return resp.status(500).json({
                 ok: false,
                 err,
             });
         }
 
         if (!categoriaDB) {
-            resp.status(400).json({
+            return resp.status(400).json({
                 ok: false,
                 err: {
                     message: "No se encontro el recurso a eliminar",
